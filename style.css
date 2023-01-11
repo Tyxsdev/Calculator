@@ -1,3 +1,93 @@
 body {
     background-color: black;
 }
+
+div {
+    border: 1px solid white;
+    color: white;
+}
+
+
+
+.wrapper {
+    width: 450px;
+    height: 450px;
+    display: flex;
+}
+
+.container-one {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.display {
+    flex-basis: 20%;
+    font-size: 50px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 89.69px;
+}
+
+.file-one{
+    flex-basis: 20%;
+    display: flex;
+}
+
+.file-two{
+    flex-basis: 20%;
+    display: flex;
+}
+
+.file-three{
+    flex-basis: 20%;
+    display: flex;
+}
+.file-four{
+    flex-basis: 20%;
+    display: flex;
+}
+.file-five{
+    flex-basis: 20%;
+    display: flex;
+}
+
+.file-one button{
+    flex: 1;
+}
+
+.file-two button{
+    flex: 1;
+}
+
+.file-three button{
+    flex: 1;
+}
+
+.file-four button{
+    flex: 1;
+}
+
+.file-five button{
+    flex: 1;
+}
+
+.container-two {
+    flex-basis: 20%;
+    display: flex;
+    flex-direction: column;
+}
+
+.first{
+    flex-basis: 20.5%;
+}
+.second {
+    flex: 1;
+}
+.third {
+    flex-basis: 19.9%;
+}
+
+button {
+    font-size: 50px;
+}
