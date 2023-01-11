@@ -2,16 +2,9 @@ body {
     background-color: black;
 }
 
-div {
-    border: 1px solid white;
-    color: white;
-}
-
-
-
 .wrapper {
-    width: 450px;
-    height: 450px;
+    width: 570px;
+    height: 570px;
     display: flex;
 }
 
@@ -19,6 +12,7 @@ div {
     flex: 1;
     display: flex;
     flex-direction: column;
+    border: 1px solid white;
 }
 
 .display {
@@ -27,29 +21,37 @@ div {
     text-align: center;
     vertical-align: middle;
     line-height: 89.69px;
+    color: white;
+    border-top: 1px solid white;
+    border-left: 1px solid white;;
 }
 
 .file-one{
     flex-basis: 20%;
     display: flex;
+    border: 1px solid white;
 }
 
 .file-two{
     flex-basis: 20%;
     display: flex;
+    border: 1px solid white;
 }
 
 .file-three{
     flex-basis: 20%;
     display: flex;
+    border: 1px solid white;
 }
 .file-four{
     flex-basis: 20%;
     display: flex;
+    border: 1px solid white;
 }
 .file-five{
     flex-basis: 20%;
     display: flex;
+    border: 1px solid white;
 }
 
 .file-one button{
@@ -76,16 +78,46 @@ div {
     flex-basis: 20%;
     display: flex;
     flex-direction: column;
+    border: 1px solid white;
 }
 
 .first{
-    flex-basis: 20.5%;
+    flex-basis: 19.5%;
+    border: 1px solid white;
 }
 .second {
     flex: 1;
+    border: 1px solid white;
 }
 .third {
-    flex-basis: 19.9%;
+    flex-basis: 19.7%;
+    border: 1px solid white;
+}
+
+.first button {
+    height: 100%;
+    width: 100%;
+}
+.second button {
+    height: 100%;
+    width: 100%;
+}
+.third button {
+    height: 100%;
+    width: 100%;
+}
+
+.container-three {
+    flex-basis: 20%;
+    height: 19.6%;
+    border: 1px solid white;
+}
+
+.container-three button {
+    font-size: 45px;
+    height: 100%;
+    width: 100%;
+    border: 0.5px solid #828783;
 }
 
 button {
