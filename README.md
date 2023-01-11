@@ -1,1 +1,1 @@
-# Calculator
+For this project i'll create a calculator able to perfom all of the basic math operators you typically find on simple calculators.
