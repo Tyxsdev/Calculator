@@ -66,9 +66,10 @@ const display = document.querySelector('.display');
 const buttons = document.querySelectorAll('button');
 const allButtonsArray = Array.from(buttons);
 const numberButtons = [...allButtonsArray.slice(0, 9), ...allButtonsArray.slice(10, 11)];
-const symbolButtons = [...allButtonsArray.slice(9,10), ...allButtonsArray.slice(11,)];
+const symbolButtons = [...allButtonsArray.slice(9,10), ...allButtonsArray.slice(13, 16)];
 const equal = document.querySelector('.equalButton');
 const clear = document.querySelector('.clearButton');
+const dot = document.querySelector('.dotButton');
 let symbolOperator = '';
 let firstValue;
 let secondValue = 0;
@@ -80,7 +81,7 @@ let fullArray = [];
 
 
 function setDisplay(e){
-    if(numberButtons.includes(e.target) || e.target.textContent === '-'){
+    if(numberButtons.includes(e.target) || e.target.textContent === '-' || e.target.textContent === '.'){
         display.textContent = null;
         display.textContent = e.target.textContent;          
     } else {
@@ -102,6 +103,20 @@ numberButtons.forEach(button => {
 
 wrapper.addEventListener('click', setDisplay, {once: true});
 
+function addDot(e){
+    arrayOfValues = display.textContent.split(/[^\w.]|_/g);
+    let isButton = arrayOfValues.filter(function(char){
+        if (char.includes('.')) return false;
+        return true;
+    })
+    if(isButton.length){
+        display.textContent += e.target.textContent;
+    }
+    return;
+}
+
+dot.addEventListener('click', addDot)
+
 
 function updateWithSymbol(e){
     let buttonClick = `${e.target.textContent}`;    
@@ -120,7 +135,7 @@ function updateWithSymbol(e){
             .split('')
             .filter(char => char !== '')
             .filter(char => char === '+' || char === '-' || char === '*' || char === '/');  
-        let symbolsNegative = [...arrayOfSymbols.slice(1,)];        
+        let symbolsNegative = [...arrayOfSymbols.slice(1,)];               
         if (arrayOfValuesWhitoutSpace.length > 1){
             for (let i = 0; i < arrayOfValuesWhitoutSpace.length -1; i++){                
                 if (firstValue === undefined){
