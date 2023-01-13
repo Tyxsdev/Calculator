@@ -3,20 +3,35 @@ function add (){
     for (let i = 0; i < arguments.length; i++){
         total += Math.round(arguments[i] *100) / 100;
     }
-    console.log(`the total is ${total}`);
-    return total;
+    if (isNaN(total)){
+        alert('Error');
+        return clearDisplay()
+    }else{
+        console.log(`the total is ${total}`);
+        return total;
+    }
 }
 
 function sub (a, b) {
-    let total = Math.round((a-b)*100)/100;
-    console.log(`the total is ${total}`);
-    return total;
+    let total = Math.round((a-b)*100)/100;    
+    if (isNaN(total)){
+        alert('Error');
+        return clearDisplay()
+    }else{
+        console.log(`the total is ${total}`);
+        return total;
+    }
 }
 
 function mult(a, b) {
     let total = Math.round((a*b)*100)/100;
-    console.log(`the total is ${total}`);
-    return total;
+    if (isNaN(total)){
+        alert('Error');
+        return clearDisplay()
+    }else{
+        console.log(`the total is ${total}`);
+        return total;
+    }
 }
 
 function div(a, b) {
@@ -24,12 +39,13 @@ function div(a, b) {
     if (b === 0){
         alert(`Something's wrong i can feel it`)
         return clearDisplay();        
-    } else{
+    } else if (isNaN(total)){
+        alert('Error');
+        return clearDisplay()
+    }else { 
+        console.log(`the total is ${total}`);
         return total;
-    }
-    
-    
-    
+    } 
 }
 
 function calculate(operator, num1, num2){
@@ -92,7 +108,7 @@ function updateWithSymbol(e){
     let buttonClick = `${e.target.textContent}`;    
     display.textContent += e.target.textContent;
     fullArray = display.textContent.split('')
-    if ((fullArray[0] === '*' || fullArray [0] === '/' ||  fullArray [0] === '+' ) && fullArray.length === 1){
+    if (fullArray[0] === '*' || fullArray [0] === '/' ||  fullArray [0] === '+'){
         alert(`Please enter a valid number as first value`);
         clearDisplay();
     } else {   
@@ -104,18 +120,15 @@ function updateWithSymbol(e){
         arrayOfSymbols = display.textContent
             .split('')
             .filter(char => char !== '')
-            .filter(char => char === '+' || char === '-' || char === '*' || char === '/');
-        console.log(arrayOfValuesWhitoutSpace);    
+            .filter(char => char === '+' || char === '-' || char === '*' || char === '/');  
         if (arrayOfValuesWhitoutSpace.length){
             for (let i = 0; i < arrayOfValuesWhitoutSpace.length -1; i++){                
                 if (firstValue === undefined){
                     firstValue = arrayOfValuesWhitoutSpace[i];
                 } else if (firstValue < 0){
                     let symbolsNegative = [...arrayOfSymbols.slice(1,)];
-                    console.log(`symbolsNegative ${symbolsNegative}`);
                     secondValue = parseFloat(arrayOfValuesWhitoutSpace[i+1]);                
                     symbolOperator = symbolsNegative[0];
-                    console.log(`negative operator = ${symbolOperator}`);
                     firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
                     display.textContent += `${buttonClick}`;    
                 } else if (fullArray[0] ===  '-'){
@@ -123,15 +136,11 @@ function updateWithSymbol(e){
                     firstValue = firstValue * (-1)
                     secondValue = parseFloat(arrayOfValuesWhitoutSpace[i+1]);                
                     symbolOperator = symbolsNegative[0];
-                    console.log(`negative operator = ${symbolOperator}`);
                     firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
                     display.textContent += `${buttonClick}`;
                 } else{
                     secondValue = parseFloat(arrayOfValuesWhitoutSpace[i+1]);
-                    console.log(`firstValue = ${firstValue}`);
-                    console.log(`secondValue = ${secondValue}`);
-                    symbolOperator = arrayOfSymbols[i]
-                    console.log(`symbol = ${symbolOperator}`);
+                    symbolOperator = arrayOfSymbols[i];
                     firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
                     display.textContent += `${buttonClick}`;         
                 }
@@ -139,6 +148,8 @@ function updateWithSymbol(e){
         }
     }
 }
+    
+
 
 symbolButtons.forEach(button => {
     button.addEventListener('click', updateWithSymbol);
@@ -156,7 +167,6 @@ symbolButtons.forEach(button => {
 
 function grabSecond(e){  
     fullArray = display.textContent.split('');
-    console.log(`aaaaaa ${fullArray}`);
     arrayOfValues = display.textContent.split(/[^\w.]|_/g);
     arrayOfValuesWhitoutSpace = arrayOfValues.filter(char => {
         if (char === '') return false;
@@ -183,9 +193,7 @@ function grabSecond(e){
 equal.addEventListener('click', grabSecond);
 
 function clearDisplay(e){
-    console.log('clearing display');
-    display.textContent = ''
-    console.log('-----------');
+    display.textContent = '';
     firstValue = undefined;
 }
 
