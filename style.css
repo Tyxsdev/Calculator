@@ -3,8 +3,8 @@ body {
 }
 
 .wrapper {
-    width: 570px;
-    height: 570px;
+    width: 650px;
+    height: 650px;
     display: flex;
 }
 
@@ -75,22 +75,9 @@ body {
 }
 
 .container-two {
-    flex-basis: 20%;
+    flex-basis: 30%;
     display: flex;
     flex-direction: column;
-    border: 1px solid white;
-}
-
-.first{
-    flex-basis: 19.5%;
-    border: 1px solid white;
-}
-.second {
-    flex: 1;
-    border: 1px solid white;
-}
-.third {
-    flex-basis: 19.7%;
     border: 1px solid white;
 }
 
@@ -122,4 +109,49 @@ body {
 
 button {
     font-size: 50px;
+}
+
+.up {
+    flex-basis: 19.8%;
+    display: flex;
+}
+
+.up button{
+    width: 100%;
+}
+
+.down {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.column-one {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.first{
+    flex-basis: 24.5%;
+    border: 1px solid white;
+}
+.second {
+    flex: 1;
+    border: 1px solid white;
+}
+.third {
+    flex-basis: 24.5%;
+    border: 1px solid white;
+}
+
+.column-two {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.column-two button{
+    flex: 1;
 }

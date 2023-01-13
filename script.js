@@ -65,11 +65,10 @@ const wrapper = document.querySelector('.wrapper');
 const display = document.querySelector('.display');
 const buttons = document.querySelectorAll('button');
 const allButtonsArray = Array.from(buttons);
-const buttonsToDisplay = [...allButtonsArray.slice(0, 12), ...allButtonsArray.slice(13, 15)];
 const numberButtons = [...allButtonsArray.slice(0, 9), ...allButtonsArray.slice(10, 11)];
-const symbolButtons = [...buttonsToDisplay.slice(9,10), ...buttonsToDisplay.slice(11,)];
-const equal = document.querySelector('.first button');
-const clear = document.querySelector('.container-three button');
+const symbolButtons = [...allButtonsArray.slice(9,10), ...allButtonsArray.slice(11,)];
+const equal = document.querySelector('.equalButton');
+const clear = document.querySelector('.clearButton');
 let symbolOperator = '';
 let firstValue;
 let secondValue = 0;
@@ -121,28 +120,30 @@ function updateWithSymbol(e){
             .split('')
             .filter(char => char !== '')
             .filter(char => char === '+' || char === '-' || char === '*' || char === '/');  
-        if (arrayOfValuesWhitoutSpace.length){
+        let symbolsNegative = [...arrayOfSymbols.slice(1,)];        
+        if (arrayOfValuesWhitoutSpace.length > 1){
             for (let i = 0; i < arrayOfValuesWhitoutSpace.length -1; i++){                
                 if (firstValue === undefined){
                     firstValue = arrayOfValuesWhitoutSpace[i];
-                } else if (firstValue < 0){
-                    let symbolsNegative = [...arrayOfSymbols.slice(1,)];
+                } else if (firstValue < 0 && arrayOfSymbols.length > 2){
                     secondValue = parseFloat(arrayOfValuesWhitoutSpace[i+1]);                
                     symbolOperator = symbolsNegative[0];
                     firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
-                    display.textContent += `${buttonClick}`;    
-                } else if (fullArray[0] ===  '-'){
-                    let symbolsNegative = [...arrayOfSymbols.slice(1,)];
+                    display.textContent += `${buttonClick}`;
+                    console.log('a');    
+                } else if (fullArray[0] ===  '-' && arrayOfSymbols.length > 2){
                     firstValue = firstValue * (-1)
                     secondValue = parseFloat(arrayOfValuesWhitoutSpace[i+1]);                
                     symbolOperator = symbolsNegative[0];
                     firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
                     display.textContent += `${buttonClick}`;
-                } else{
+                    console.log('b');
+                } else if (arrayOfValuesWhitoutSpace.length > 1 && symbolsNegative.length > 1){
                     secondValue = parseFloat(arrayOfValuesWhitoutSpace[i+1]);
                     symbolOperator = arrayOfSymbols[i];
                     firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
-                    display.textContent += `${buttonClick}`;         
+                    display.textContent += `${buttonClick}`;   
+                    console.log('c');      
                 }
             }
         }
@@ -175,17 +176,37 @@ function grabSecond(e){
     arrayOfSymbols = display.textContent
         .split('')
         .filter(char => char !== '')
-        .filter(char => char === '+' || char === '-' || char === '*' || char === '/');  
-    if (arrayOfValues.length > 1 && fullArray[0] != '-'){
+        .filter(char => char === '+' || char === '-' || char === '*' || char === '/');
+    
+    
+    if (arrayOfValuesWhitoutSpace.length > 2 && fullArray[0] != '-'){
+        firstValue = parseFloat(arrayOfValuesWhitoutSpace[0]);
+        secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);
+        symbolOperator = arrayOfSymbols[0];
+        firstValue = calculate(symbolOperator, firstValue, secondValue);
+        secondValue = parseFloat(arrayOfValuesWhitoutSpace[2]);
+        symbolOperator = arrayOfSymbols[1];
+        firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);        
+    }else if(arrayOfValuesWhitoutSpace.length > 2 && fullArray[0] === '-'){
+        firstValue = (parseFloat(arrayOfValuesWhitoutSpace[0])) * (-1);
+        secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);
+        symbolOperator = arrayOfSymbols[0];
+        firstValue = calculate(symbolOperator, firstValue, secondValue);
+        secondValue = parseFloat(arrayOfValuesWhitoutSpace[2]);
+        symbolOperator = arrayOfSymbols[1];
+        firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
+    }else if (arrayOfValues.length > 1 && fullArray[0] != '-'){
         firstValue = parseFloat(arrayOfValuesWhitoutSpace[0]);
         secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);
         symbolOperator = arrayOfSymbols[1] || arrayOfSymbols[0];
         firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
+        console.log('d');
     }else if(fullArray[0] === '-'){
         firstValue = (parseFloat(arrayOfValuesWhitoutSpace[0])) * (-1);
         secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);
         symbolOperator = arrayOfSymbols[1] || arrayOfSymbols[0];
         firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
+        console.log('e');
     } 
     else clearDisplay();    
 } 
@@ -197,4 +218,4 @@ function clearDisplay(e){
     firstValue = undefined;
 }
 
-clear.addEventListener('click', clearDisplay);
+clear.addEventListener('click', clearDisplay); 
