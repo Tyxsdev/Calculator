@@ -70,6 +70,7 @@ const symbolButtons = [...allButtonsArray.slice(9,10), ...allButtonsArray.slice(
 const equal = document.querySelector('.equalButton');
 const clear = document.querySelector('.clearButton');
 const dot = document.querySelector('.dotButton');
+const deleteButton = document.querySelector('.deleteButton');
 let symbolOperator = '';
 let firstValue;
 let secondValue = 0;
@@ -86,7 +87,7 @@ function setDisplay(e){
         display.textContent = e.target.textContent;          
     } else {
         display.textContent = null;
-    }
+    }    
 }
 
 function updateDisplay(e){
@@ -94,6 +95,13 @@ function updateDisplay(e){
         clearDisplay();
     }
     display.textContent += e.target.textContent;
+    arrayOfValues = display.textContent.split(/[^\w.]|_/g);
+    arrayOfValuesWhitoutSpace = arrayOfValues.filter(char => {
+        if (char === '') return false;
+        return true;
+        })
+    console.log(arrayOfValues);
+    firstValue = arrayOfValuesWhitoutSpace[0];
 }
 
 
@@ -115,8 +123,21 @@ function addDot(e){
     return;
 }
 
-dot.addEventListener('click', addDot)
+dot.addEventListener('click', addDot);
 
+
+function deleteFromDysplay(e){
+    display.textContent = display.textContent.slice(0, -1);
+    arrayOfValues = display.textContent.split(/[^\w.]|_/g);
+    arrayOfValuesWhitoutSpace = arrayOfValues.filter(char => {
+        if (char === '') return false;
+        return true;
+        })
+    firstValue = arrayOfValuesWhitoutSpace[0];
+    console.log(firstValue);
+}
+
+deleteButton.addEventListener('click', deleteFromDysplay);
 
 function updateWithSymbol(e){
     let buttonClick = `${e.target.textContent}`;    
@@ -191,8 +212,7 @@ function grabSecond(e){
     arrayOfSymbols = display.textContent
         .split('')
         .filter(char => char !== '')
-        .filter(char => char === '+' || char === '-' || char === '*' || char === '/');
-    
+        .filter(char => char === '+' || char === '-' || char === '*' || char === '/');  
     
     if (arrayOfValuesWhitoutSpace.length > 2 && fullArray[0] != '-'){
         firstValue = parseFloat(arrayOfValuesWhitoutSpace[0]);
