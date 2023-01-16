@@ -7,7 +7,6 @@ function add (){
         alert('Error');
         return clearDisplay()
     }else{
-        console.log(`the total is ${total}`);
         return total;
     }
 }
@@ -18,7 +17,6 @@ function sub (a, b) {
         alert('Error');
         return clearDisplay()
     }else{
-        console.log(`the total is ${total}`);
         return total;
     }
 }
@@ -29,7 +27,6 @@ function mult(a, b) {
         alert('Error');
         return clearDisplay()
     }else{
-        console.log(`the total is ${total}`);
         return total;
     }
 }
@@ -41,15 +38,15 @@ function div(a, b) {
         return clearDisplay();        
     } else if (isNaN(total)){
         alert('Error');
+        clearDisplay()
         return clearDisplay()
-    }else { 
-        console.log(`the total is ${total}`);
+    }else {
         return total;
     } 
 }
 
 function calculate(operator, num1, num2){
-    console.log(`running calculate with symbol=${operator}, num1=${num1}, num2=${num2}`);
+    console.log(`running operator = ${operator}, num1 = ${num1}, num2 = ${num2}`);
     if(operator === '+'){
         return add(num1, num2);
     }else if (operator === '-'){
@@ -94,14 +91,25 @@ function updateDisplay(e){
     if (display.textContent.includes('Error')){
         clearDisplay();
     }
-    display.textContent += e.target.textContent;
-    arrayOfValues = display.textContent.split(/[^\w.]|_/g);
-    arrayOfValuesWhitoutSpace = arrayOfValues.filter(char => {
-        if (char === '') return false;
-        return true;
-        })
-    console.log(arrayOfValues);
-    firstValue = arrayOfValuesWhitoutSpace[0];
+    else {
+        display.textContent += e.target.textContent;
+        fullArray = display.textContent;
+        if (fullArray[0] === '*' || fullArray [0] === '/' ||  fullArray [0] === '+'){
+            display.textContent = e.target.textContent;        
+            arrayOfValues = display.textContent.split(/[^\w.]|_/g);
+            arrayOfValuesWhitoutSpace = arrayOfValues.filter(char => {
+            if (char === '') return false;
+            return true;
+            })
+        }else{
+            arrayOfValues = display.textContent.split(/[^\w.]|_/g);
+            arrayOfValuesWhitoutSpace = arrayOfValues.filter(char => {
+                if (char === '') return false;
+                return true;
+                })        
+            firstValue = arrayOfValuesWhitoutSpace[0];
+        }
+    }
 }
 
 
@@ -134,58 +142,37 @@ function deleteFromDysplay(e){
         return true;
         })
     firstValue = arrayOfValuesWhitoutSpace[0];
-    console.log(firstValue);
 }
 
 deleteButton.addEventListener('click', deleteFromDysplay);
 
 function updateWithSymbol(e){
-    let buttonClick = `${e.target.textContent}`;    
+    let buttonClick = `${e.target.textContent}`;
     display.textContent += e.target.textContent;
-    fullArray = display.textContent.split('')
-    if (fullArray[0] === '*' || fullArray [0] === '/' ||  fullArray [0] === '+'){
-        alert(`Please enter a valid number as first value`);
-        clearDisplay();
-    } else {   
-        arrayOfValues = display.textContent.split(/[^\w.]|_/g);
-        arrayOfValuesWhitoutSpace = arrayOfValues.filter(char => {
-            if (char === '') return false;
-            return true;
+    fullArray = display.textContent.split('')    
+    arrayOfValues = display.textContent.split(/[^\w.]|_/g);
+    arrayOfValuesWhitoutSpace = arrayOfValues.filter(char => {
+    if (char === '') return false;
+        return true;
         })
-        arrayOfSymbols = display.textContent
-            .split('')
-            .filter(char => char !== '')
-            .filter(char => char === '+' || char === '-' || char === '*' || char === '/');  
-        let symbolsNegative = [...arrayOfSymbols.slice(1,)];               
-        if (arrayOfValuesWhitoutSpace.length > 1){
-            for (let i = 0; i < arrayOfValuesWhitoutSpace.length -1; i++){                
-                if (firstValue === undefined){
-                    firstValue = arrayOfValuesWhitoutSpace[i];
-                } else if (firstValue < 0 && arrayOfSymbols.length > 2){
-                    secondValue = parseFloat(arrayOfValuesWhitoutSpace[i+1]);                
-                    symbolOperator = symbolsNegative[0];
-                    firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
-                    display.textContent += `${buttonClick}`;
-                    console.log('a');    
-                } else if (fullArray[0] ===  '-' && arrayOfSymbols.length > 2){
-                    firstValue = firstValue * (-1)
-                    secondValue = parseFloat(arrayOfValuesWhitoutSpace[i+1]);                
-                    symbolOperator = symbolsNegative[0];
-                    firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
-                    display.textContent += `${buttonClick}`;
-                    console.log('b');
-                } else if (arrayOfValuesWhitoutSpace.length > 1 && symbolsNegative.length > 1){
-                    secondValue = parseFloat(arrayOfValuesWhitoutSpace[i+1]);
-                    symbolOperator = arrayOfSymbols[i];
-                    firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
-                    display.textContent += `${buttonClick}`;   
-                    console.log('c');      
-                }
-            }
-        }
-    }
-}
-    
+    arrayOfSymbols = display.textContent
+        .split('')
+        .filter(char => char !== '')
+        .filter(char => char === '+' || char === '-' || char === '*' || char === '/');  
+    let symbolsNegative = [...arrayOfSymbols.slice(1,)];            
+    if (arrayOfSymbols.length > 1 && fullArray[0] != '-' && arrayOfValuesWhitoutSpace.length > 1){
+            secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);                
+            symbolOperator = arrayOfSymbols[0];
+            firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
+            display.textContent += `${buttonClick}`;
+        } else if (arrayOfSymbols.length > 1 && fullArray[0] === '-' && arrayOfValuesWhitoutSpace.length > 1){
+            firstValue = parseFloat(firstValue * (-1));
+            secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);
+            symbolOperator = symbolsNegative[0];            
+            firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
+            display.textContent += `${buttonClick}`;
+        }                
+}    
 
 
 symbolButtons.forEach(button => {
@@ -212,36 +199,17 @@ function grabSecond(e){
     arrayOfSymbols = display.textContent
         .split('')
         .filter(char => char !== '')
-        .filter(char => char === '+' || char === '-' || char === '*' || char === '/');  
-    
-    if (arrayOfValuesWhitoutSpace.length > 2 && fullArray[0] != '-'){
-        firstValue = parseFloat(arrayOfValuesWhitoutSpace[0]);
-        secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);
-        symbolOperator = arrayOfSymbols[0];
-        firstValue = calculate(symbolOperator, firstValue, secondValue);
-        secondValue = parseFloat(arrayOfValuesWhitoutSpace[2]);
-        symbolOperator = arrayOfSymbols[1];
-        firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);        
-    }else if(arrayOfValuesWhitoutSpace.length > 2 && fullArray[0] === '-'){
-        firstValue = (parseFloat(arrayOfValuesWhitoutSpace[0])) * (-1);
-        secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);
-        symbolOperator = arrayOfSymbols[0];
-        firstValue = calculate(symbolOperator, firstValue, secondValue);
-        secondValue = parseFloat(arrayOfValuesWhitoutSpace[2]);
-        symbolOperator = arrayOfSymbols[1];
-        firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
-    }else if (arrayOfValues.length > 1 && fullArray[0] != '-'){
+        .filter(char => char === '+' || char === '-' || char === '*' || char === '/');    
+    if (arrayOfValues.length > 1 && fullArray[0] != '-'){
         firstValue = parseFloat(arrayOfValuesWhitoutSpace[0]);
         secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);
         symbolOperator = arrayOfSymbols[1] || arrayOfSymbols[0];
         firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
-        console.log('d');
     }else if(fullArray[0] === '-'){
         firstValue = (parseFloat(arrayOfValuesWhitoutSpace[0])) * (-1);
         secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);
         symbolOperator = arrayOfSymbols[1] || arrayOfSymbols[0];
         firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
-        console.log('e');
     } 
     else clearDisplay();    
 } 
@@ -253,4 +221,98 @@ function clearDisplay(e){
     firstValue = undefined;
 }
 
-clear.addEventListener('click', clearDisplay); 
+clear.addEventListener('click', clearDisplay);
+
+
+// Keyboard events and functions
+function keyboardNextPress(e){
+    let buttonClick = `${e.key}`;
+    if (e.key === '0' || e.key === '1' || e.key === '2' || e.key === '3' || e.key === '4' || e.key === '5' ||
+    e.key === '6' || e.key === '7' || e.key === '8' || e.key === '9' || e.key === '+' || e.key === '-' ||
+    e.key === '/' || e.key === '*' || e.key === '.'){
+        if (display.textContent.includes('Calculate')){
+            display.textContent = e.key;
+        }
+        else {
+            display.textContent += e.key;
+            fullArray = display.textContent;
+            if (fullArray[0] === '*' || fullArray [0] === '/' ||  fullArray [0] === '+'){
+                display.textContent = e.key;        
+                arrayOfValues = display.textContent.split(/[^\w.]|_/g);
+                arrayOfValuesWhitoutSpace = arrayOfValues.filter(char => {
+                if (char === '') return false;
+                return true;
+                })
+            }else{
+                arrayOfValues = display.textContent.split(/[^\w.]|_/g);
+                arrayOfValuesWhitoutSpace = arrayOfValues.filter(char => {
+                    if (char === '') return false;
+                    return true;
+                    })        
+                firstValue = arrayOfValuesWhitoutSpace[0];
+            }
+        }
+        arrayOfSymbols = display.textContent
+            .split('')
+            .filter(char => char !== '')
+            .filter(char => char === '+' || char === '-' || char === '*' || char === '/');   
+        let symbolsNegative = [...arrayOfSymbols.slice(1,)];            
+        if (arrayOfSymbols.length > 1 && fullArray[0] != '-' && arrayOfValuesWhitoutSpace.length > 1 && 
+        (e.key === '/' || e.key === '-' || e.key === '+' || e.key === '*' )){
+                secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);                
+                symbolOperator = arrayOfSymbols[0];
+                firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
+                display.textContent += `${buttonClick}`;
+            } else if (arrayOfSymbols.length > 1 && fullArray[0] === '-' && arrayOfValuesWhitoutSpace.length > 1
+            && (e.key === '/' || e.key === '-' || e.key === '+' || e.key === '*' )){
+                firstValue = parseFloat(firstValue * (-1));
+                secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);
+                symbolOperator = symbolsNegative[0];            
+                firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
+                display.textContent += `${buttonClick}`;
+            } 
+    } 
+    return;
+}
+    
+window.addEventListener('keydown', keyboardNextPress);
+
+function deleteKey(e){
+    if (display.textContent === 'Calculate'){
+        return
+    }    
+    if (e.key === 'Backspace'){
+        display.textContent = display.textContent.slice(0, -1);
+        arrayOfValues = display.textContent.split(/[^\w.]|_/g);
+        arrayOfValuesWhitoutSpace = arrayOfValues.filter(char => {
+        if (char === '') return false;
+        return true;
+        })
+        firstValue = arrayOfValuesWhitoutSpace[0];
+    }
+}
+window.addEventListener('keydown', deleteKey);
+
+function equalKey(e){
+    if (display.textContent === 'Calculate'){
+        return
+    } 
+    if (e.key === '='){
+        arraysFromDisplay ();    
+        if (arrayOfValues.length > 1 && fullArray[0] != '-'){
+            firstValue = parseFloat(arrayOfValuesWhitoutSpace[0]);
+            secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);
+            symbolOperator = arrayOfSymbols[1] || arrayOfSymbols[0];
+            firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
+        }else if(fullArray[0] === '-'){
+            console.log('here');
+            console.log(arrayOfValuesWhitoutSpace);
+            firstValue = (parseFloat(arrayOfValuesWhitoutSpace[0])) * (-1);
+            secondValue = parseFloat(arrayOfValuesWhitoutSpace[1]);
+            symbolOperator = arrayOfSymbols[1] || arrayOfSymbols[0];
+            firstValue = display.textContent = calculate(symbolOperator, firstValue, secondValue);
+        } else clearDisplay();    
+    } 
+}   
+
+window.addEventListener('keydown', equalKey);
