@@ -18,12 +18,13 @@ body {
 .display {
     flex-basis: 20%;
     font-size: 50px;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 89.69px;
-    color: white;
+    color: #d618d3;
     border-top: 1px solid white;
-    border-left: 1px solid white;;
+    border-left: 1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
 }
 
 .file-one{
